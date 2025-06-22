@@ -25,14 +25,15 @@ function getWeatherData(event) {
       const temp = data.currentConditions.temp;
       const feelsLike = data.currentConditions.feelslike;
       const icon = data.currentConditions.icon;
-      renderCurrentWeather(temp, feelsLike, icon);
+      const conditions = data.currentConditions.conditions;
+      renderCurrentWeather({ temp, feelsLike, icon, conditions });
     })
     .catch((error) => {
       console.error("Fetch error:", error);
     });
 }
 
-function renderCurrentWeather(temp, feelsLike, icon) {
+function renderCurrentWeather({ temp, feelsLike, icon, conditions }) {
   const iconMap = {
     "clear-day": "wi-day-sunny",
     "clear-night": "wi-night-clear",
@@ -52,18 +53,19 @@ function renderCurrentWeather(temp, feelsLike, icon) {
   const iconDiv = document.createElement("div");
   const iconEl = document.createElement("i");
   const iconClass = iconMap[icon] || "wi-na";
+  const conditionsDiv = document.createElement("div");
   const tempDiv = document.createElement("div");
 
   h2.textContent = "Current weather";
-
   iconEl.classList.add("wi", iconClass);
-
+  conditionsDiv.textContent = conditions;
   tempDiv.textContent = `${temp} F (Feels like ${feelsLike} F)`;
   tempDiv.classList.add("temp-div");
 
   div.append(h2);
   iconDiv.append(iconEl);
   div.append(iconDiv);
+  div.append(conditionsDiv);
   div.append(tempDiv);
   outputDiv.append(div);
 }
