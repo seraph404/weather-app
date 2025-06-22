@@ -22,8 +22,50 @@ function getWeatherData(event) {
     .then((response) => response.json())
     .then((data) => {
       console.log(data);
+      const temp = data.currentConditions.temp;
+      const feelsLike = data.currentConditions.feelslike;
+      const icon = data.currentConditions.icon;
+      renderCurrentWeather(temp, feelsLike, icon);
     })
     .catch((error) => {
       console.error("Fetch error:", error);
     });
 }
+
+function renderCurrentWeather(temp, feelsLike, icon) {
+  const iconMap = {
+    "clear-day": "wi-day-sunny",
+    "clear-night": "wi-night-clear",
+    "partly-cloudy-day": "wi-day-cloudy",
+    "cloudy": "wi-cloudy",
+    "rain": "wi-rain",
+    "snow": "wi-snow",
+    "thunderstorm": "wi-thunderstorm",
+  };
+
+  const outputDiv = document.querySelector(".output");
+
+  outputDiv.innerHTML = "";
+
+  const div = document.createElement("div");
+  const h2 = document.createElement("h2");
+  const iconDiv = document.createElement("div");
+  const iconEl = document.createElement("i");
+  const iconClass = iconMap[icon] || "wi-na";
+  const tempDiv = document.createElement("div");
+
+  h2.textContent = "Current weather";
+
+  iconEl.classList.add("wi", iconClass);
+
+  tempDiv.textContent = `${temp} F (Feels like ${feelsLike} F)`;
+  tempDiv.classList.add("temp-div");
+
+  div.append(h2);
+  iconDiv.append(iconEl);
+  div.append(iconDiv);
+  div.append(tempDiv);
+  outputDiv.append(div);
+}
+// for testing purposes
+renderCurrentWeather();
