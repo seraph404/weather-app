@@ -4,6 +4,26 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Weather API</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.10/css/weather-icons.min.css"
+    />
   </head>
-  <body></body>
+  <body>
+    <div class="container">
+      <h1>Weather App</h1>
+      <div class="input">
+        <form>
+          <input
+            type="text"
+            name="city"
+            id="city"
+            placeholder="Enter your city name or zip code"
+          />
+          <input type="submit" value="Submit" id="generate-weather" />
+        </form>
+      </div>
+      <div class="output"></div>
+    </div>
+  </body>
 </html>
