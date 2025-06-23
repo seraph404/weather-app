@@ -1,4 +1,5 @@
 import "./styles.css";
+import mockData from "./mockData.json";
 
 const weatherButton = document.querySelector("#generate-weather");
 weatherButton.addEventListener("click", getWeatherData);
@@ -16,21 +17,31 @@ function getWeatherData(event) {
     return;
   }
 
-  fetch(url, {
-    mode: "cors",
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      console.log(data);
-      const temp = data.currentConditions.temp;
-      const feelsLike = data.currentConditions.feelslike;
-      const icon = data.currentConditions.icon;
-      const conditions = data.currentConditions.conditions;
-      renderCurrentWeather({ temp, feelsLike, icon, conditions });
-    })
-    .catch((error) => {
-      console.error("Fetch error:", error);
-    });
+  function getAPI() {
+    return Promise.resolve(mockData);
+  }
+
+  getAPI().then((data) => {
+    const temp = data.currentConditions.temp;
+    const feelsLike = data.currentConditions.feelslike;
+    const icon = data.currentConditions.icon;
+    const conditions = data.currentConditions.conditions;
+    renderCurrentWeather({ temp, feelsLike, icon, conditions });
+  });
+
+  /* Commenting out so I don't use up my API uses */
+  //   fetch(url, {
+  //     mode: "cors",
+  //   })
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       console.log(data);
+  //       // code here
+  //     })
+  //     .catch((error) => {
+  //       console.error("Fetch error:", error);
+  //     });
+  //
 }
 
 function renderCurrentWeather({ temp, feelsLike, icon, conditions }) {
