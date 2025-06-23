@@ -3,6 +3,62 @@ import mockData from "./mockData.json";
 
 const weatherButton = document.querySelector("#generate-weather");
 weatherButton.addEventListener("click", getWeatherData);
+const temperatureToggle = document.querySelector(".temperature-toggle");
+temperatureToggle.addEventListener("click", toggleTemperature);
+const state = {
+  unit: "fahrenheit",
+  temperature: null,
+  feelslike: null,
+};
+
+// reset the radio button selector upon page load
+window.addEventListener("DOMContentLoaded", () => {
+  const fahrenheitRadio = document.getElementById("fahrenheit");
+  if (fahrenheitRadio) {
+    fahrenheitRadio.checked = true;
+  }
+});
+
+function toggleTemperature(event) {
+  // return if there is no temperature state
+  if (state.temperature === null || state.feelslike === null) {
+    return;
+  }
+  const tempDiv = document.querySelector(".temp-div");
+  if (event.target.id === "fahrenheit") {
+    state.unit = "fahrenheit";
+    // if there's no output yet
+    if (!tempDiv) {
+      convertToFahrenheit();
+    } else {
+      convertToFahrenheit(state.temperature, state.feelslike);
+      toggleTempOutput(tempDiv);
+    }
+  } else if (event.target.id === "celsius") {
+    state.unit = "celsius";
+    // if there's no output yet
+    if (!tempDiv) {
+      convertToCelsius();
+    } else {
+      convertToCelsius(state.temperature, state.feelslike);
+      toggleTempOutput(tempDiv);
+    }
+  }
+}
+
+function convertToCelsius(temp, feelsLike) {
+  return {
+    temperature: ((temp - 32) * 5) / 9,
+    feelsLikeTemp: ((feelsLike - 32) * 5) / 9,
+  };
+}
+
+function convertToFahrenheit(temp, feelsLike) {
+  return {
+    temperature: (temp * 9) / 5 + 32,
+    feelsLikeTemp: (feelsLike * 9) / 5 + 32,
+  };
+}
 
 function getWeatherData(event) {
   event.preventDefault();
@@ -16,35 +72,46 @@ function getWeatherData(event) {
     alert("Please enter a city name.");
     return;
   }
-
-  function getAPI() {
-    return Promise.resolve(mockData);
-  }
-
-  getAPI().then((data) => {
-    const temp = data.currentConditions.temp;
-    const feelsLike = data.currentConditions.feelslike;
-    const icon = data.currentConditions.icon;
-    const conditions = data.currentConditions.conditions;
-    renderCurrentWeather({ temp, feelsLike, icon, conditions });
-  });
-
-  /* Commenting out so I don't use up my API uses */
-  //   fetch(url, {
-  //     mode: "cors",
-  //   })
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       console.log(data);
-  //       // code here
-  //     })
-  //     .catch((error) => {
-  //       console.error("Fetch error:", error);
-  //     });
-  //
 }
 
-function renderCurrentWeather({ temp, feelsLike, icon, conditions }) {
+function getAPI() {
+  return Promise.resolve(mockData);
+}
+
+getAPI().then((data) => {
+  // make sure temp displays as needed
+  if (state.unit === "fahrenheit") {
+    // by default the API returns fahrenheit
+    state.temperature = data.currentConditions.temp;
+    state.feelslike = data.currentConditions.feelslike;
+  } else if (state.unit === "celsius") {
+    const { temperature, feelsLikeTemp } = convertToCelsius(
+      data.currentConditions.temp,
+      data.currentConditions.feelslike
+    );
+    state.temperature = temperature;
+    state.feelslike = feelsLikeTemp;
+  }
+  const icon = data.currentConditions.icon;
+  const conditions = data.currentConditions.conditions;
+  renderCurrentWeather({ icon, conditions });
+});
+
+/* Commenting out so I don't use up my API uses */
+//   fetch(url, {
+//     mode: "cors",
+//   })
+//     .then((response) => response.json())
+//     .then((data) => {
+//       console.log(data);
+//       // code here
+//     })
+//     .catch((error) => {
+//       console.error("Fetch error:", error);
+//     });
+//
+
+function renderCurrentWeather({ icon, conditions }) {
   const iconMap = {
     "clear-day": "wi-day-sunny",
     "clear-night": "wi-night-clear",
@@ -70,7 +137,11 @@ function renderCurrentWeather({ temp, feelsLike, icon, conditions }) {
   h2.textContent = "Current weather";
   iconEl.classList.add("wi", iconClass);
   conditionsDiv.textContent = conditions;
-  tempDiv.textContent = `${temp} F (Feels like ${feelsLike} F)`;
+  tempDiv.textContent = `${Math.round(state.temperature)}°${
+    state.unit.toUpperCase()[0]
+  }  (Feels like ${Math.round(state.feelslike)}°${
+    state.unit.toUpperCase()[0]
+  } )`;
   tempDiv.classList.add("temp-div");
 
   div.append(h2);
@@ -80,5 +151,12 @@ function renderCurrentWeather({ temp, feelsLike, icon, conditions }) {
   div.append(tempDiv);
   outputDiv.append(div);
 }
-// for testing purposes
-renderCurrentWeather();
+
+function toggleTempOutput(tempDiv) {
+  tempDiv.textContent = "";
+  tempDiv.textContent = `${Math.round(state.temperature)}°${
+    state.unit.toUpperCase()[0]
+  }  (Feels like ${Math.round(state.feelslike)}°${
+    state.unit.toUpperCase()[0]
+  } )`;
+}
