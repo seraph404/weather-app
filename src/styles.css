@@ -1,6 +1,6 @@
 :root {
   --font-color: #464646;
-  --accent-color: #purple;
+  --accent-color: rgb(72, 33, 116);
 }
 
 * {
@@ -54,4 +54,32 @@ html {
 .wi {
   font-size: 10rem;
   line-height: 16rem;
+}
+/* temperature toggle */
+
+.toggle-wrapper {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.temperature-toggle {
+  display: inline-flex;
+  background: #fff;
+  border: 1px solid black;
+  justify-content: flex-end;
+}
+
+.temperature-toggle input[type="radio"] {
+  display: none;
+}
+
+.temperature-toggle label {
+  padding: 10px 10px;
+  cursor: pointer;
+  color: var(--accent-color);
+}
+
+.temperature-toggle input[type="radio"]:checked + label {
+  background: var(--accent-color);
+  color: #fff;
 }
