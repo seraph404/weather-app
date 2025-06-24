@@ -1,5 +1,7 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+
 :root {
-  --font-color: #464646;
+  --font-color: #363636;
   --accent-color: rgb(72, 33, 116);
 }
 
@@ -11,18 +13,22 @@
 
 html {
   font-size: 62.5%;
-  font-family: sans-serif;
+  font-family: "Inter", sans-serif;
+  color: var(--font-color);
 }
 
 .container {
-  width: 800px;
-  height: 800px;
+  max-width: 900px;
   margin: 0 auto;
   margin-top: 40px;
 }
 .container h1 {
   font-size: 5rem;
   text-align: center;
+}
+form {
+  width: 100%;
+  display: flex;
 }
 .input {
   display: flex;
@@ -31,13 +37,16 @@ html {
   margin-top: 40px;
 }
 .input > form > input[type="text"] {
-  width: 500px;
+  width: 70%;
 }
 .input > form > input[type="text"],
 .input > form > input[type="submit"] {
   font-size: 3rem;
   align-self: center;
   padding: 10px;
+}
+.input > form > input[type="submit"] {
+  width: 30%;
 }
 .output {
   margin-top: 40px;
@@ -48,13 +57,7 @@ html {
   font-size: 3rem;
   text-align: center;
 }
-.temp-div {
-  margin-top: 10px;
-}
-.wi {
-  font-size: 10rem;
-  line-height: 16rem;
-}
+
 /* temperature toggle */
 
 .toggle-wrapper {
@@ -82,4 +85,69 @@ html {
 .temperature-toggle input[type="radio"]:checked + label {
   background: var(--accent-color);
   color: #fff;
+}
+
+.section {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+.section {
+  border-bottom: 1px solid var(--font-color);
+}
+
+.section:last-of-type {
+  border-bottom: none;
+}
+
+.five-day-forecast {
+  justify-content: center;
+}
+
+.five-day-forecast div {
+}
+.forecast-wrapper div {
+}
+/* design */
+.daily-forecast {
+}
+.weekly-forecast {
+  display: block;
+}
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.card {
+  padding: 10px;
+}
+.card div {
+  margin-top: 8px;
+}
+.daily-forecast .wi {
+  font-size: 8rem;
+  line-height: 12rem;
+}
+.daily-forecast h2,
+.weekly-forecast h2 {
+  margin-bottom: 20px;
+}
+.weekly-forecast .wi {
+  font-size: 4rem;
+}
+
+.weekly-forecast {
+  font-size: 1em;
+}
+.daily-forecast .condition {
+  font-weight: bold;
+  font-size: 2.5rem;
+}
+
+.avg-temp {
+  font-weight: bold;
+}
+.feels-like {
+  font-style: italic;
+  font-weight: 200;
 }
