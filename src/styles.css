@@ -150,6 +150,14 @@ form {
   font-style: italic;
   font-weight: 200;
 }
+.notice {
+  font-size: 1.6rem;
+  background-color: rgb(255, 211, 211);
+  padding: 10px;
+  margin: 10px;
+  border-radius: 5px;
+  display: none;
+}
 .spinner {
   width: 40px;
   height: 40px;
