@@ -75,7 +75,10 @@ async function getWeatherData(event) {
     });
     renderWeeklyCards({ days: data.days });
   } catch (error) {
+    loadingSpinner.style.display = "none";
     console.error("Fetch error:", error);
+    outputDiv.innerText =
+      "Could not load weather data. Please try again later.";
   }
 }
 
