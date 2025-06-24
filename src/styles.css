@@ -18,9 +18,10 @@ html {
 }
 
 .container {
-  max-width: 900px;
+  max-width: 1050px;
   margin: 0 auto;
   margin-top: 40px;
+  padding: 40px;
 }
 .container h1 {
   font-size: 5rem;
@@ -44,9 +45,13 @@ form {
   font-size: 3rem;
   align-self: center;
   padding: 10px;
+  font-family: inherit;
 }
 .input > form > input[type="submit"] {
   width: 30%;
+  background-color: var(--accent-color);
+  color: white;
+  border: 2px solid var(--accent-color);
 }
 .output {
   margin-top: 40px;
@@ -102,19 +107,9 @@ form {
 .five-day-forecast {
   justify-content: center;
 }
-
-.five-day-forecast div {
-}
-.forecast-wrapper div {
-}
-/* design */
-.daily-forecast {
-}
-.weekly-forecast {
-  display: block;
-}
 .cards {
   display: flex;
+  justify-content: center;
   flex-wrap: wrap;
   gap: 10px;
 }
@@ -131,9 +126,11 @@ form {
 .daily-forecast h2,
 .weekly-forecast h2 {
   margin-bottom: 20px;
+  color: var(--accent-color);
 }
 .weekly-forecast .wi {
   font-size: 4rem;
+  line-height: 8rem;
 }
 
 .weekly-forecast {
@@ -143,7 +140,9 @@ form {
   font-weight: bold;
   font-size: 2.5rem;
 }
-
+.weekly-forecast .condition {
+  font-size: 1.6rem;
+}
 .avg-temp {
   font-weight: bold;
 }
