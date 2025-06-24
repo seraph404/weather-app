@@ -216,6 +216,18 @@ function renderWeeklyCards({ days }) {
     console.log(day);
     const cardDiv = document.createElement("div");
     cardDiv.classList.add("card");
+
+    // day of the week heading
+    const dateString = day.datetime;
+    const date = new Date(dateString);
+    const weekdayFormatter = new Intl.DateTimeFormat("en-US", {
+      weekday: "short",
+    });
+
+    const dayHeading = document.createElement("h3");
+    dayHeading.textContent = weekdayFormatter.format(date);
+    cardDiv.append(dayHeading);
+
     // create the card content
     renderWeatherCardContent({
       divContainer: weeklyForecastDiv,
@@ -227,7 +239,6 @@ function renderWeeklyCards({ days }) {
       conditions: day.conditions,
       icon: day.icon,
     });
-
     cardsDiv.append(cardDiv);
   });
 
