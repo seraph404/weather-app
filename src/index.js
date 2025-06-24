@@ -2,7 +2,8 @@ import "./styles.css";
 import mockData from "./mockData.json";
 
 const weatherButton = document.querySelector("#generate-weather");
-weatherButton.addEventListener("click", getWeatherData);
+// change to getWeatherData in production
+weatherButton.addEventListener("click", mockDataNotice);
 const temperatureToggle = document.querySelector(".temperature-toggle");
 temperatureToggle.addEventListener("click", toggleTemperature);
 const outputDiv = document.querySelector(".output");
@@ -44,27 +45,68 @@ function convertToCelsius(temp) {
   return Math.round(((temp - 32) * 5) / 9);
 }
 
-async function getWeatherData(event) {
+/* FOR USE WITH REAL API KEY */
+// async function getWeatherData(event) {
+//   event.preventDefault();
+//   const apiKey = process.env.WEATHER_API_KEY;
+//   const cityName = document.querySelector("#city");
+//   const city = cityName.value;
+//   const url = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${city}?key=${apiKey}`;
+//   console.log(city);
+//   const loadingSpinner = document.querySelector(".spinner");
+
+//   if (!city) {
+//     alert("Please enter a city name.");
+//     return;
+//   }
+
+//   try {
+//     loadingSpinner.style.display = "block";
+//     const response = await fetch(url);
+//     loadingSpinner.style.display = "none";
+//     const data = await response.json();
+//     console.log(data);
+//     outputDiv.innerHTML = "";
+//     renderCurrentWeather({
+//       avgTemp: data.currentConditions.temp,
+//       hiTemp: data.days[0].tempmax,
+//       loTemp: data.days[0].tempmin,
+//       feelsLikeTemp: data.currentConditions.feelslike,
+//       conditions: data.currentConditions.conditions,
+//       icon: data.currentConditions.icon,
+//     });
+//     renderWeeklyCards({ days: data.days });
+//     loadingSpinner.style.display = "none";
+//   } catch (error) {
+//     loadingSpinner.style.display = "none";
+//     console.error("Fetch error:", error);
+//     outputDiv.innerText =
+//       "Could not load weather data. Please try again later.";
+//   }
+// }
+
+/* FOR USE WITH MOCK DATA  */
+// calling manually to display mock data
+getMockWeatherData();
+
+function mockDataNotice(event) {
   event.preventDefault();
-  const apiKey = process.env.WEATHER_API_KEY;
-  const cityName = document.querySelector("#city");
-  const city = cityName.value;
-  const url = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${city}?key=${apiKey}`;
-  console.log(city);
+  const notice = document.querySelector(".notice");
+  notice.textContent =
+    "⚠️ This demo uses mock weather data. Real-time API access is disabled to protect the API key.";
+  notice.style.display = "block";
+}
+
+async function getMockWeatherData(event) {
   const loadingSpinner = document.querySelector(".spinner");
-
-  if (!city) {
-    alert("Please enter a city name.");
-    return;
-  }
-
   try {
     loadingSpinner.style.display = "block";
-    const response = await fetch(url);
-    loadingSpinner.style.display = "none";
-    const data = await response.json();
-    console.log(data);
-    outputDiv.innerHTML = "";
+
+    // simulating network delay
+    await new Promise((resolve) => setTimeout(resolve, 500));
+
+    const data = mockData;
+
     renderCurrentWeather({
       avgTemp: data.currentConditions.temp,
       hiTemp: data.days[0].tempmax,
@@ -73,6 +115,8 @@ async function getWeatherData(event) {
       conditions: data.currentConditions.conditions,
       icon: data.currentConditions.icon,
     });
+
+    loadingSpinner.style.display = "none";
     renderWeeklyCards({ days: data.days });
   } catch (error) {
     loadingSpinner.style.display = "none";
@@ -81,24 +125,6 @@ async function getWeatherData(event) {
       "Could not load weather data. Please try again later.";
   }
 }
-
-/* For using with mock data */
-// function getAPI() {
-//   return Promise.resolve(mockData);
-// }
-
-// getAPI().then((data) => {
-//   renderCurrentWeather({
-//     location: data.address,
-//     avgTemp: data.currentConditions.temp,
-//     hiTemp: data.days[0].tempmax,
-//     loTemp: data.days[0].tempmin,
-//     feelsLikeTemp: data.currentConditions.feelslike,
-//     conditions: data.currentConditions.conditions,
-//     icon: data.currentConditions.icon,
-//   });
-//   renderWeeklyCards({ days: data.days });
-// });
 
 // creates the currentWeather-specific elements
 function renderCurrentWeather({
