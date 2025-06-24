@@ -188,8 +188,7 @@ function renderWeatherCardContent({
   loSpan.dataset.c = convertToCelsius(loTemp);
   loSpan.textContent = `↓ ${loTemp}°`;
 
-  cardDiv.append(weatherIcon);
-  cardDiv.append(conditionDiv);
+  cardDiv.append(weatherIcon, conditionDiv);
 
   temperatureDiv.append(avgTempDiv, feelsLikeDiv, highLowDiv);
   highLowDiv.append(hiSpan, loSpan);
@@ -242,8 +241,7 @@ function renderWeeklyCards({ days }) {
     cardsDiv.append(cardDiv);
   });
 
-  weeklyForecastDiv.append(weeklyForecastHeading);
-  weeklyForecastDiv.append(cardsDiv);
+  weeklyForecastDiv.append(weeklyForecastHeading, cardsDiv);
 
   outputDiv.append(weeklyForecastDiv);
 }
