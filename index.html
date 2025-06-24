@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather App from API</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.10/css/weather-icons.min.css"
+    />
+  <script defer src="main.js"></script></head>
+  <body>
+    <div class="container">
+      <div class="notice"></div>
+      <div class="toggle-wrapper">
+        <div class="temperature-toggle">
+          <input type="radio" id="fahrenheit" name="toggle" checked />
+          <label for="fahrenheit">F &deg;</label>
+          <input type="radio" id="celsius" name="toggle" />
+          <label for="celsius">C &deg;</label>
+        </div>
+      </div>
+      <h1>Weather App</h1>
+      <div class="input">
+        <form>
+          <input
+            type="text"
+            name="city"
+            id="city"
+            placeholder="Enter your city name or zip code"
+          />
+          <input type="submit" value="Submit" id="generate-weather" />
+        </form>
+      </div>
+      <div class="output">
+        <div class="spinner"></div>
+      </div>
+      <!-- 
+      <div class="output">
+        <div class="section daily-forecast">
+          <h2>Daily forecast</h2>
+          <div class="card">
+            <h3 class="location">Philadelphia</h3>
+            <i class="wi wi-day-sunny"></i>
+            <div class="condition">Sunny</div>
+            <div class="temperature">
+              <div class="avg-temp">96°</div>
+              <div class="feels-like">(feels like 114°)</div>
+              <div class="hi-lo">
+                <span class="hi">↑ 112°</span> | <span class="lo">↓ 92°</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="section weekly-forecast">
+          <h2>Weekly forecast</h2>
+          <div class="cards">
+            <div class="card">
+              <h3>Tue</h3>
+              <div class="card">
+                <i class="wi wi-day-sunny"></i>
+                <div class="condition">Sunny</div>
+                <div class="temperature">
+                  <div class="avg-temp">96°</div>
+                  <div class="feels-like">(feels like 114°)</div>
+                  <div class="hi-lo">
+                    <span class="hi">↑ 112°</span> |
+                    <span class="lo">↓ 92°</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <h3>Wed</h3>
+              <div class="card">
+                <i class="wi wi-day-sunny"></i>
+                <div class="condition">Sunny</div>
+                <div class="temperature">
+                  <div class="avg-temp">96°</div>
+                  <div class="feels-like">(feels like 114°)</div>
+                  <div class="hi-lo">
+                    <span class="hi">↑ 112°</span> |
+                    <span class="lo">↓ 92°</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <h3>Thu</h3>
+              <div class="card">
+                <i class="wi wi-day-sunny"></i>
+                <div class="condition">Sunny</div>
+                <div class="temperature">
+                  <div class="avg-temp">96°</div>
+                  <div class="feels-like">(feels like 114°)</div>
+                  <div class="hi-lo">
+                    <span class="hi">↑ 112°</span> |
+                    <span class="lo">↓ 92°</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <h3>Fri</h3>
+              <div class="card">
+                <i class="wi wi-day-sunny"></i>
+                <div class="condition">Sunny</div>
+                <div class="temperature">
+                  <div class="avg-temp">96°</div>
+                  <div class="feels-like">(feels like 114°)</div>
+                  <div class="hi-lo">
+                    <span class="hi">↑ 112°</span> |
+                    <span class="lo">↓ 92°</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <h3>Sat</h3>
+              <div class="card">
+                <i class="wi wi-day-sunny"></i>
+                <div class="condition">Sunny</div>
+                <div class="temperature">
+                  <div class="avg-temp">96°</div>
+                  <div class="feels-like">(feels like 114°)</div>
+                  <div class="hi-lo">
+                    <span class="hi">↑ 112°</span> |
+                    <span class="lo">↓ 92°</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div> -->
+      </div>
+    </div>
+  </body>
+</html>
