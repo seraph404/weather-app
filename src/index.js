@@ -43,7 +43,7 @@ function convertToCelsius(temp) {
   return Math.round(((temp - 32) * 5) / 9);
 }
 
-function getWeatherData(event) {
+async function getWeatherData(event) {
   event.preventDefault();
   const apiKey = process.env.WEATHER_API_KEY;
   const cityName = document.querySelector("#city");
@@ -56,25 +56,22 @@ function getWeatherData(event) {
     return;
   }
 
-  fetch(url, {
-    mode: "cors",
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      renderCurrentWeather({
-        location: data.address,
-        avgTemp: data.currentConditions.temp,
-        hiTemp: data.days[0].tempmax,
-        loTemp: data.days[0].tempmin,
-        feelsLikeTemp: data.currentConditions.feelslike,
-        conditions: data.currentConditions.conditions,
-        icon: data.currentConditions.icon,
-      });
-      renderWeeklyCards({ days: data.days });
-    })
-    .catch((error) => {
-      console.error("Fetch error:", error);
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+    renderCurrentWeather({
+      location: data.address,
+      avgTemp: data.currentConditions.temp,
+      hiTemp: data.days[0].tempmax,
+      loTemp: data.days[0].tempmin,
+      feelsLikeTemp: data.currentConditions.feelslike,
+      conditions: data.currentConditions.conditions,
+      icon: data.currentConditions.icon,
     });
+    renderWeeklyCards({ days: data.days });
+  } catch (error) {
+    console.error("Fetch error:", error);
+  }
 }
 
 /* For using with mock data */
