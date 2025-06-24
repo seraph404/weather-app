@@ -51,6 +51,7 @@ async function getWeatherData(event) {
   const city = cityName.value;
   const url = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${city}?key=${apiKey}`;
   console.log(city);
+  const loadingSpinner = document.querySelector(".spinner");
 
   if (!city) {
     alert("Please enter a city name.");
@@ -58,7 +59,9 @@ async function getWeatherData(event) {
   }
 
   try {
+    loadingSpinner.style.display = "block";
     const response = await fetch(url);
+    loadingSpinner.style.display = "none";
     const data = await response.json();
     console.log(data);
     outputDiv.innerHTML = "";
