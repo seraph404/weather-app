@@ -94,7 +94,19 @@ getAPI().then((data) => {
   }
   const icon = data.currentConditions.icon;
   const conditions = data.currentConditions.conditions;
-  renderCurrentWeather({ icon, conditions });
+  //renderCurrentWeather({ icon, conditions });
+  renderWeatherCard({
+    location: data.address,
+    avgTemp: data.currentConditions.temp,
+    hiTemp: data.days[0].tempmax,
+    loTemp: data.days[0].tempmin,
+    feelsLikeTemp: data.currentConditions.feelslike,
+    conditions: data.currentConditions.conditions,
+    icon: data.currentConditions.icon,
+  });
+
+  const days = data.days;
+  //renderFiveDayForecast(days);
 });
 
 /* Commenting out so I don't use up my API uses */
@@ -111,7 +123,21 @@ getAPI().then((data) => {
 //     });
 //
 
-function renderCurrentWeather({ icon, conditions }) {
+function createCurrentSection() {
+  const outputDiv = document.querySelector(".output");
+  h2.textContent = "Current weather";
+  div.append(h2);
+}
+
+function renderWeatherCard({
+  location,
+  avgTemp,
+  hiTemp,
+  loTemp,
+  feelsLikeTemp,
+  conditions,
+  icon,
+}) {
   const iconMap = {
     "clear-day": "wi-day-sunny",
     "clear-night": "wi-night-clear",
@@ -124,32 +150,103 @@ function renderCurrentWeather({ icon, conditions }) {
 
   const outputDiv = document.querySelector(".output");
 
-  outputDiv.innerHTML = "";
+  const dailyForecastDiv = document.createElement("div");
+  dailyForecastDiv.classList.add("section", "daily-forecast");
+  const dailyForecastHeading = document.createElement("h2");
+  dailyForecastHeading.textContent = "Daily forecast";
+  const cardDiv = document.createElement("div");
+  cardDiv.classList.add("card");
+  const locationHeading = document.createElement("h3");
+  locationHeading.classList.add("location");
+  locationHeading.textContent = location;
 
+  /* weather icon */
+  const weatherIcon = document.createElement("i");
+  const iconClass = iconMap[icon] || "wi-na";
+  weatherIcon.classList.add("wi", iconClass);
+
+  const conditionDiv = document.createElement("div");
+  conditionDiv.classList.add("condition");
+  conditionDiv.textContent = conditions;
+
+  const temperatureDiv = document.createElement("div");
+  temperatureDiv.classList.add("temperature");
+
+  const avgTempDiv = document.createElement("div");
+  avgTempDiv.classList.add("avg-temp");
+  avgTempDiv.textContent = `${avgTemp}°`;
+
+  const feelsLikeDiv = document.createElement("div");
+  feelsLikeDiv.classList.add("feels-like");
+  feelsLikeDiv.textContent = `(feels like ${feelsLikeTemp}°)`;
+
+  const highLowDiv = document.createElement("div");
+  highLowDiv.classList.add("hi-lo");
+  const hiSpan = document.createElement("span");
+  hiSpan.classList.add("hi");
+  hiSpan.textContent = `↑ ${hiTemp}°`;
+  const loSpan = document.createElement("span");
+  loSpan.classList.add("lo");
+  loSpan.textContent = `↓ ${loTemp}°`;
+
+  dailyForecastDiv.append(dailyForecastHeading);
+  cardDiv.append(locationHeading);
+  cardDiv.append(weatherIcon);
+  cardDiv.append(conditionDiv);
+
+  temperatureDiv.append(avgTempDiv, feelsLikeDiv, highLowDiv);
+  highLowDiv.append(hiSpan, loSpan);
+  cardDiv.append(temperatureDiv);
+
+  dailyForecastDiv.append(cardDiv);
+  outputDiv.append(dailyForecastDiv);
+}
+
+function renderFiveDayForecast(days) {
+  const outputDiv = document.querySelector(".output");
+  console.log(days[1]);
   const div = document.createElement("div");
   const h2 = document.createElement("h2");
-  const iconDiv = document.createElement("div");
-  const iconEl = document.createElement("i");
-  const iconClass = iconMap[icon] || "wi-na";
-  const conditionsDiv = document.createElement("div");
-  const tempDiv = document.createElement("div");
 
-  h2.textContent = "Current weather";
-  iconEl.classList.add("wi", iconClass);
-  conditionsDiv.textContent = conditions;
-  tempDiv.textContent = `${Math.round(state.temperature)}°${
-    state.unit.toUpperCase()[0]
-  }  (Feels like ${Math.round(state.feelslike)}°${
-    state.unit.toUpperCase()[0]
-  } )`;
-  tempDiv.classList.add("temp-div");
+  div.classList.add("section", "five-day-forecast");
+  h2.textContent = "Five-day forecast";
 
   div.append(h2);
-  iconDiv.append(iconEl);
-  div.append(iconDiv);
-  div.append(conditionsDiv);
-  div.append(tempDiv);
   outputDiv.append(div);
+
+  const forecastWrapper = document.createElement("div");
+  forecastWrapper.classList.add("forecast-wrapper");
+  div.append(forecastWrapper);
+
+  let numDays = [1, 2, 3, 4, 5];
+
+  console.log(numDays);
+
+  numDays.forEach((day) => {
+    const forecastWrapper = document.querySelector(".forecast-wrapper");
+    if (!forecastWrapper) return;
+    console.log(days[day].datetime);
+    // create a div that holds temperature data
+    const dailyCardDiv = document.createElement("div");
+    dailyCardDiv.classList.add("daily");
+
+    const cardTitle = document.createElement("h3");
+    const dateString = days[day].datetime;
+    const date = new Date(dateString);
+    const weekdayFormatter = new Intl.DateTimeFormat("en-US", {
+      weekday: "short",
+    });
+    cardTitle.textContent = weekdayFormatter.format(date);
+
+    dailyCardDiv.append(cardTitle);
+    // append the temp data div to
+    forecastWrapper.append(dailyCardDiv);
+
+    renderCurrentWeather({
+      conditions: days[day].conditions,
+      icon: days[day].icon,
+    });
+  });
 }
 
 function toggleTempOutput(tempDiv) {
