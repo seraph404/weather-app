@@ -5,6 +5,7 @@ const weatherButton = document.querySelector("#generate-weather");
 weatherButton.addEventListener("click", getWeatherData);
 const temperatureToggle = document.querySelector(".temperature-toggle");
 temperatureToggle.addEventListener("click", toggleTemperature);
+const outputDiv = document.querySelector(".output");
 
 // reset the radio button selector upon page load
 window.addEventListener("DOMContentLoaded", () => {
@@ -59,8 +60,9 @@ async function getWeatherData(event) {
   try {
     const response = await fetch(url);
     const data = await response.json();
+    console.log(data);
+    outputDiv.innerHTML = "";
     renderCurrentWeather({
-      location: data.address,
       avgTemp: data.currentConditions.temp,
       hiTemp: data.days[0].tempmax,
       loTemp: data.days[0].tempmin,
@@ -94,7 +96,6 @@ async function getWeatherData(event) {
 
 // creates the currentWeather-specific elements
 function renderCurrentWeather({
-  location,
   avgTemp,
   hiTemp,
   loTemp,
@@ -102,20 +103,12 @@ function renderCurrentWeather({
   conditions,
   icon,
 }) {
-  const outputDiv = document.querySelector(".output");
-
   const dailyForecastDiv = document.createElement("div");
   dailyForecastDiv.classList.add("section", "daily-forecast");
   const dailyForecastHeading = document.createElement("h2");
   dailyForecastHeading.textContent = "Daily forecast";
   const cardDiv = document.createElement("div");
   cardDiv.classList.add("card");
-  const locationHeading = document.createElement("h3");
-  locationHeading.classList.add("location");
-  locationHeading.textContent = location;
-
-  cardDiv.append(locationHeading);
-
   dailyForecastDiv.append(dailyForecastHeading);
   dailyForecastDiv.append(cardDiv);
   outputDiv.append(dailyForecastDiv);
@@ -206,8 +199,6 @@ function renderWeatherCardContent({
 }
 
 function renderWeeklyCards({ days }) {
-  const outputDiv = document.querySelector(".output");
-
   const weeklyForecastDiv = document.createElement("div");
   weeklyForecastDiv.classList.add("section", "weekly-forecast");
   const weeklyForecastHeading = document.createElement("h2");
